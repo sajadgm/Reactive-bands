@@ -1,15 +1,16 @@
-import { tap, withLatestFrom } from 'rxjs/operators';
+import { UserDataService } from './../user-data.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   BehaviorSubject,
   combineLatest,
+  forkJoin,
   map,
   merge,
   mergeMap,
   Observable,
-  startWith,
   take,
+  tap,
 } from 'rxjs';
 
 import { BandDataService } from '../band-data.service';
@@ -25,7 +26,8 @@ export class BandListComponent implements OnInit {
 
   constructor(
     private bandDataService: BandDataService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private userDataService: UserDataService
   ) {}
 
   refreshDataClickSubject = new BehaviorSubject<Band[]>([]);
@@ -43,7 +45,21 @@ export class BandListComponent implements OnInit {
     );
 
     const bandList$ = refreshTrigger$.pipe(
-      mergeMap((active) => this.bandDataService.getBands(active))
+      mergeMap((active) =>
+        forkJoin([
+          this.bandDataService.getBands(active),
+          this.userDataService.currentUser,
+        ])
+      ),
+      tap((d) => console.log(d)),
+      map(([bands, currentUser]) =>
+        bands.map((band) =>
+          band.id === currentUser.favoritBandId
+            ? { ...band, favorite: true }
+            : band
+        )
+      ),
+      tap((d) => console.log(d, 'result'))
     );
 
     this.model$ = merge(
@@ -60,9 +76,4 @@ export class BandListComponent implements OnInit {
       take(5)
     );
   }
-}
-function Last(
-  queryParams: Observable<Params>
-): import('rxjs').OperatorFunction<Band[], unknown> {
-  throw new Error('Function not implemented.');
 }

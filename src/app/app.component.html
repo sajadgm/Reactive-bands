@@ -3,11 +3,24 @@
   <p class="lead">Demo app for reactive programming in Angular.</p>
 
   <ul>
-    <li [routerLink]="['/bands']" [queryParams]="{ active: true }">Active</li>
-    <li [routerLink]="['/bands']" [queryParams]="{ active: false }">
+    <li
+      style="cursor: pointer"
+      [routerLink]="['/bands']"
+      [queryParams]="{ active: true }"
+    >
+      Active
+    </li>
+    <li
+      style="cursor: pointer"
+      [routerLink]="['/bands']"
+      [queryParams]="{ active: false }"
+    >
       Inactive
     </li>
-    <li [routerLink]="['/bands']">All</li>
+    <li style="cursor: pointer" [routerLink]="['/bands']">All</li>
+    <li style="cursor: pointer" [routerLink]="['/search-bands']">
+      search your band
+    </li>
   </ul>
   <router-outlet></router-outlet>
 </div>

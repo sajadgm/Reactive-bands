@@ -31,6 +31,7 @@
               "src/assets"
             ],
             "styles": [
+              "C:/Users/sajad/Desktop/Reactive-bands/node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],
             "scripts": []

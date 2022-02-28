@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { delay, shareReplay, tap } from 'rxjs/operators';
+import { interval, of, Observable } from 'rxjs';
+import { delay, map, tap } from 'rxjs/operators';
 
 import { Band } from './model';
 
@@ -47,10 +47,28 @@ export class BandDataService {
     );
   }
 
+  searchBands(queryString: any) {
+    return of(
+      this.bands.filter(
+        (b) =>
+          queryString && queryString.length > 0
+            ? b.name.toLowerCase().includes(queryString.toLowerCase())
+            : false // if it will be True ,All bands shown when you send empty querystring
+      )
+    );
+  }
+
   updateIsActive(id: string, isActive: boolean) {
     console.log(`Setting isActive to ${isActive} for band with id ${id}`);
     const band = this.bands.find((band) => band.id === id);
     band!.isActive = isActive;
     return of({ ...band }).pipe(delay(1000));
+  }
+
+  getUpdates(): Observable<Band> {
+    return interval(500).pipe(
+      map(() => this.bands[Math.floor(Math.random() * this.bands.length)]),
+      tap((band) => console.log(`recived update for ${band.name}`))
+    );
   }
 }

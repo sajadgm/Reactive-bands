@@ -1,13 +1,7 @@
 import { Band } from './../model';
 import { BandDataService } from './../band-data.service';
 import { Component, OnInit } from '@angular/core';
-import {
-  Subject,
-  Observable,
-  mergeMap,
-  debounceTime,
-  BehaviorSubject,
-} from 'rxjs';
+import { Subject, Observable, mergeMap, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-search-band',
@@ -19,6 +13,7 @@ export class SearchBandComponent implements OnInit {
 
   search$ = new Subject();
   searchResult$: Observable<Band[]> = this.search$.pipe(
+    debounceTime(500),
     mergeMap(
       (searchedText): Observable<Band[]> =>
         this.bandDataService.searchBands(searchedText)

@@ -10,17 +10,27 @@ import { BandDataService } from './band-data.service';
 import { BandListComponent } from './band-list/band-list.component';
 import { SearchBandComponent } from './search-band/search-band.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BandCreateComponent } from './band-create/band-create.component';
 
 const routes: Routes = [
   { path: 'bands', component: BandListComponent },
   { path: 'search-bands', component: SearchBandComponent },
+  { path: 'add-bands', component: BandCreateComponent },
   { path: '', pathMatch: 'full', redirectTo: 'bands' },
 ];
 
 @NgModule({
-  declarations: [AppComponent, BandListComponent, SearchBandComponent],
+  declarations: [
+    AppComponent,
+    BandListComponent,
+    SearchBandComponent,
+    BandCreateComponent,
+  ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),

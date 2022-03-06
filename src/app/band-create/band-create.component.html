@@ -1,0 +1,29 @@
+<form [formGroup]="formData">
+  <div class="form-group">
+    <label for="Name">Name</label>
+    <input type="text" class="form-control" formControlName="name" />
+  </div>
+  <div class="form-group">
+    <label for="Formation Year">Formation Year</label>
+    <input type="text" class="form-control" formControlName="formationYear" />
+  </div>
+  <div class="form-group">
+    <label for="isActive">is Active ?</label>
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="isActive"
+      formControlName="isActive"
+    />
+  </div>
+  <div class="form-group">
+    <label for="biography">biography</label>
+    <textarea
+      type="text"
+      class="form-control"
+      formControlName="biography"
+    ></textarea>
+  </div>
+  <button type="submit" class="btn">Undo</button>
+  <button type="submit" class="btn btn-primary">Add</button>
+</form>

@@ -1,4 +1,4 @@
-import { bufferTime } from 'rxjs';
+import { bufferCount, bufferTime } from 'rxjs';
 import { BandDataService } from './band-data.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.bandDataService
       .getUpdates()
-      .pipe(bufferTime(10000))
+      .pipe(bufferCount(5))
       .subscribe((bands) => {
         const bandNames = bands.map((b) => b.name).join(' ,');
         this.toastr.info(`Band ${bandNames} has been updated`);
